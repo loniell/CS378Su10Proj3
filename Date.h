@@ -201,8 +201,18 @@ class Date {
          * <your documentation>
          */
         bool operator == (const Date& rhs) const {
-            // <your code>
-            return false;}
+            // current day = rhs.my_day
+            // current month = rhs.my_month
+            // current year = rhs.my_year
+
+            if (this.my_day != rhs.my_day){
+                return false;}
+            if (this.my_month != rhs.my_month){
+                return false;}
+            if (this.my_year != rhs.my_year){
+                return false;}
+               
+            return true;}
 
         // ----------
         // operator <
@@ -212,7 +222,28 @@ class Date {
          * <your documentation>
          */
         bool operator < (const Date& rhs) const {
-            // <your code>
+            // current day = rhs.my_day
+            // current month = rhs.my_month
+            // current year = rhs.my_year
+
+            if (this.my_year < rhs.my_year){
+                return true;}
+            if (this.my_year > rhs.my_year){
+                return false;}
+            if (this.my_year == rhs.my_year){
+                if (this.my_month > rhs.my_month){
+                    return false;}
+                if (this.my_month < rhs.my_month){
+                    return true;}
+                if (this.my_month == rhs.my_month){
+                    if (this.my_days > rhs.my_days){
+                        return false;}
+                    if (this.my_days < rhs.my_days){
+                        return true;}
+                    if (this.my_days == rhs.my_days){
+                        return false;}
+                }
+            }
             return false;}
 
         // -----------
@@ -226,7 +257,9 @@ class Date {
          * @throws invalid_argument if the resulting date precedes 1 Jan 1600
          */
         Date& operator += (const T& days) {
-            // <your code>
+            // current day = rhs.my_day
+            // current month = rhs.my_month
+            // current year = rhs.my_year
             return *this;}
 
         // -----------
