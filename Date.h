@@ -15,6 +15,7 @@
 #include <iostream>  // ostream
 #include <stdexcept> // invalid_argument
 #include <utility>   // !=, <=, >, >=
+#include <typeinfo>  // typeid (to test types)
 
 /*
 namespace std     {
@@ -274,7 +275,35 @@ class Date {
          * @throws invalid_argument if the resulting date precedes 1 Jan 1600
          */
         Date& operator += (const T& days) {
-            // <your code>
+
+            if (typeid(days) == typeid(int)){
+                if days < 0{
+                    days = -days;
+                    this -= days;
+                }
+                else{
+                    int tempDays = this.days + days;
+                    Date tempDate = new Date(tempDays);
+                    this = tempDate;
+                }
+            }
+
+            if (typeid(days) == typeid(Date)){
+                if days.days < 0{
+                    days.days = -days.days;
+                    this -= days;
+                }
+                else{
+                    int tempDays = this.days + days.days
+                    Date tempDate = new Date(tempDays);
+                    this = tempDate;
+                }
+            }
+
+            if (!this.valid()){
+                throw std::invalid_argument();
+            }
+
             return *this;}
 
         // -----------
@@ -288,7 +317,35 @@ class Date {
          * @throws invalid_argument if the resulting date precedes 1 Jan 1600
          */
         Date& operator -= (const T& days) {
-            // <your code>
+
+            if (typeid(days) == typeid(int)){
+                if days < 0{
+                    days = -days;
+                    this += days;
+                }
+                else{
+                    int tempDays = this.days - days;
+                    Date tempDate = new Date(tempDays);
+                    this = tempDate;
+                }
+            }
+
+            if (typeid(days) == typeid(Date)){
+                if days.days < 0{
+                    days.days = -days.days;
+                    this += days;
+                }
+                else{
+                    int tempDays = this.days - days.days
+                    Date tempDate = new Date(tempDays);
+                    this = tempDate;
+                }
+            }
+
+            if (!this.valid()){
+                throw std::invalid_argument();
+            }
+
             return *this;}
 
         // ----------
@@ -300,8 +357,11 @@ class Date {
          * @return the number of days between the dates (lhs - rhs)
          */
         T operator - (const Date& rhs) const {
-            // <your code>
-            return 0;}
+            int numDays = this.days - rhs.days;
+            if numDays < 0{
+                numDays = -numDays;
+            }
+            return numDays;}
 
         // ---------
         // leap_year
