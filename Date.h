@@ -88,7 +88,8 @@ class Date {
          */
         friend std::ostream& operator << (std::ostream& lhs, const Date& rhs) {
             // <your code>
-            return lhs << "1 Jan 2008";}
+        	string[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+            return lhs << rhs.my_day + " " + months[rhs.my_month] + " " + rhs.my_year + "  -  " + days + " days since 1 January 1600";}
 
     private:
         // ----
@@ -96,6 +97,8 @@ class Date {
         // ----
         // <your data>
         int days;
+        int my_month;
+        int my_day;
         int my_year;
 
     private:
@@ -107,7 +110,16 @@ class Date {
          * <your documentation>
          */
         bool valid () const {
-            // <your code>
+            if(my_month < 0 || my_month > 12 || my_day > 31 || my_day < 0 || my_year < 0)
+            	return false;
+            else if(my_day > 30 && || (month == 4 || month == 6 || month == 9 || month == 11))
+            	return false;
+            else if(my_day > 29 && my_month == 2)
+            	return false;
+            else if(my_day > 28 && !leap_year())
+            	return false;
+            else if(my_year < 1600)
+            	return false;
             return true;}
 
         // -----------
@@ -115,15 +127,19 @@ class Date {
         // -----------
 
         /**
-         * @param days >= 0
+         * @param totaldays >= 0
          * Date(0) -> 1 Jan 1600
          * you can loop through an array of month days
          */
-        Date (const T& days) {
-            assert(days >= 0);
-            // <your code>
+        Date (const T& totaldays)
+        {
+            assert(totaldays >= 0);
+
+
+
             if (!valid())
-                throw std::invalid_argument("Date::Date()");}
+                throw std::invalid_argument("Date::Date()");
+        }
 
         // -------
         // to_days
@@ -153,6 +169,10 @@ class Date {
         Date (const T& day, const T& month, const T& year) {
             my_year = (int) year;
             days = 0;
+            my_month = month;
+            my_day = day;
+            if (!valid())
+            	throw std::invalid_argument("Date::Date()");
             int currentyear = 1600;
             int currentmonth = 1;
             int daysin_givenyear = 0;
@@ -183,8 +203,6 @@ class Date {
             	++currentyear;
             }
             days += daysin_givenyear;
-            if (!valid())
-                throw std::invalid_argument("Date::Date()");
 
         }
 
@@ -192,7 +210,6 @@ class Date {
         // Date (const Date&);
         // ~Date ();
         // Date& operator = (const Date&);
-
         // -----------
         // operator ==
         // -----------
@@ -211,7 +228,7 @@ class Date {
                 return false;}
             if (this.my_year != rhs.my_year){
                 return false;}
-               
+
             return true;}
 
         // ----------
@@ -257,9 +274,7 @@ class Date {
          * @throws invalid_argument if the resulting date precedes 1 Jan 1600
          */
         Date& operator += (const T& days) {
-            // current day = rhs.my_day
-            // current month = rhs.my_month
-            // current year = rhs.my_year
+            // <your code>
             return *this;}
 
         // -----------
@@ -296,7 +311,12 @@ class Date {
          * <your documentation>
          */
         bool leap_year () const {
-            // <your code>
-            return false;}};
+        	if(my_year % 4 != 0)
+        		return false;
+        	else if(my_year %4 == 0 && my_year % 400 == 0)
+        		return true;
+        	return false;
+        }
+};
 
 #endif // Date_h
