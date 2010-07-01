@@ -94,8 +94,9 @@ class Date {
         // ----
         // data
         // ----
-
         // <your data>
+        int days;
+        int my_year;
 
     private:
         // -----
@@ -150,9 +151,42 @@ class Date {
          * @throws invalid_argument if the resulting date is invalid
          */
         Date (const T& day, const T& month, const T& year) {
-            // <your code>
+            my_year = (int) year;
+            days = 0;
+            int currentyear = 1600;
+            int currentmonth = 1;
+            int daysin_givenyear = 0;
+            int month_in_givenyear = 1;
+            while(month_in_givenyear < month)
+            {
+            	if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
+            		daysin_givenyear += 31;
+            	else if(month == 4 || month == 6 || month == 9 || month == 11)
+            		daysin_givenyear += 30;
+            	else //february
+            	{
+            		if((year % 4 == 0 && year % 100 != 0) ||(year %4 == 0 year % 400 == 0))
+            			daysin_givenyear += 29;
+            		else
+            			daysin_givenyear += 28;
+            	}
+            	++month_in_givenyear;
+            }
+            daysin_givenyear += day;
+            --year;
+            while(currentyear < year)
+            {
+            	if(currentyear % 4 != 0 || (currentyear % 4 == 0 && currentyear % 100 == 0 && currentyear %400 != 0)))
+            		days+= 365;
+            	else if(currentyear %4 == 0 && currentyear % 400 == 0)
+            		days += 366;
+            	++currentyear;
+            }
+            days += daysin_givenyear;
             if (!valid())
-                throw std::invalid_argument("Date::Date()");}
+                throw std::invalid_argument("Date::Date()");
+
+        }
 
         // Default copy, destructor, and copy assignment.
         // Date (const Date&);
