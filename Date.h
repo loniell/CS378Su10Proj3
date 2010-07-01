@@ -15,7 +15,7 @@
 #include <iostream>  // ostream
 #include <stdexcept> // invalid_argument
 #include <utility>   // !=, <=, >, >=
-#include <typeinfo>  // typeid (to test types)
+#include <typeinfo>
 
 /*
 namespace std     {
@@ -89,18 +89,18 @@ class Date {
          */
         friend std::ostream& operator << (std::ostream& lhs, const Date& rhs) {
             // <your code>
-        	string[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-            return lhs << rhs.my_day + " " + months[rhs.my_month] + " " + rhs.my_year + "  -  " + days + " days since 1 January 1600";}
+        	char months[] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+            return lhs << rhs.my_day + " " + months[rhs.my_month -1] + " " + rhs.my_year + "  -  " + days + " days since 1 January 1600";}
 
     private:
         // ----
         // data
         // ----
         // <your data>
-        int days;
-        int my_month;
-        int my_day;
-        int my_year;
+        static int days;
+        static int my_month;
+        static int my_day;
+        static int my_year;
 
     private:
         // -----
@@ -113,7 +113,7 @@ class Date {
         bool valid () const {
             if(my_month < 0 || my_month > 12 || my_day > 31 || my_day < 0 || my_year < 0)
             	return false;
-            else if(my_day > 30 && || (month == 4 || month == 6 || month == 9 || month == 11))
+            else if(my_day > 30 && (my_month == 4 || my_month == 6 || my_month == 9 || my_month == 11))
             	return false;
             else if(my_day > 29 && my_month == 2)
             	return false;
@@ -135,7 +135,51 @@ class Date {
         Date (const T& totaldays)
         {
             assert(totaldays >= 0);
+            days = (int) totaldays;
+            int count = 0;
+            int curmonth = 1;
+            int curyear = 1600;
+            int curday = 1;
+            while(count < days)
+            {
+            	if(curday < 28)
+            		++curday;
+            	else if(curday == 28 && curmonth = 2 && (curyear % 4 != 0 || (curyear % 4 == 0 && curyear % 400 != 0)))//non-leap year end of february
+            	{
+            		curday = 1;
+            		++curmonth;
+            	}
+            	else if(curday == 29 && curmonth == 2 && curyear % 4 == 0)
+            	{//leap year end of february
+            		curday = 1;
+            		++curmonth;
+            	}
+            	else if(curday < 30)//only february needs to worry about 28/29 so can move on to day 30 in other 11 months
+            		++curday;
+            	else if(curday == 30 && (curmonth == 4 || curmonth == 6 || curmonth == 9 || curmonth == 11))
+            	{//end of september, april, june, or november
+            		curday = 1;
+            		++ curmonth;
+            	}
+            	else if(curday == 30 && !(curmonth == 4 || curmonth == 6 || curmonth == 9 || curmonth == 11))
+            		++curday;
+            	else if(curday == 31 && curmonth == 12)
+            	{//end of december and current year
+            		curday = 1;
+            		curmonth = 1;
+            		++curyear;
+            	}
+            	else
+            	{//end of the other 31 day months
+            		curday = 1;
+            		++curmonth;
+            	}
+            	++ count;
+            }
 
+            my_year = curyear;
+            my_day = curday;
+            my_month = curmonth;
 
 
             if (!valid())
@@ -151,8 +195,6 @@ class Date {
          * 1 Jan 1600 -> 0
          */
         T to_days () const {
-            T days = 0;
-            // <your code>
             assert(days >= 0);
             return days;}
 
@@ -175,9 +217,9 @@ class Date {
             if (!valid())
             	throw std::invalid_argument("Date::Date()");
             int currentyear = 1600;
-            int currentmonth = 1;
             int daysin_givenyear = 0;
             int month_in_givenyear = 1;
+            int givenyear = year;
             while(month_in_givenyear < month)
             {
             	if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
@@ -186,7 +228,7 @@ class Date {
             		daysin_givenyear += 30;
             	else //february
             	{
-            		if((year % 4 == 0 && year % 100 != 0) ||(year %4 == 0 year % 400 == 0))
+            		if( (year % 4 == 0 && year % 100 != 0) || (year %4 == 0 && year % 400 == 0) )
             			daysin_givenyear += 29;
             		else
             			daysin_givenyear += 28;
@@ -194,10 +236,10 @@ class Date {
             	++month_in_givenyear;
             }
             daysin_givenyear += day;
-            --year;
+            --givenyear;
             while(currentyear < year)
             {
-            	if(currentyear % 4 != 0 || (currentyear % 4 == 0 && currentyear % 100 == 0 && currentyear %400 != 0)))
+            	if(currentyear % 4 != 0 || (currentyear % 4 == 0 && currentyear % 100 == 0 && currentyear %400 != 0))
             		days+= 365;
             	else if(currentyear %4 == 0 && currentyear % 400 == 0)
             		days += 366;
@@ -223,11 +265,11 @@ class Date {
             // current month = rhs.my_month
             // current year = rhs.my_year
 
-            if (this.my_day != rhs.my_day){
+            if (my_day != rhs.my_day){
                 return false;}
-            if (this.my_month != rhs.my_month){
+            if (my_month != rhs.my_month){
                 return false;}
-            if (this.my_year != rhs.my_year){
+            if (my_year != rhs.my_year){
                 return false;}
 
             return true;}
@@ -244,124 +286,125 @@ class Date {
             // current month = rhs.my_month
             // current year = rhs.my_year
 
-            if (this.my_year < rhs.my_year){
+            if (my_year < rhs.my_year){
                 return true;}
-            if (this.my_year > rhs.my_year){
+            if (my_year > rhs.my_year){
                 return false;}
-            if (this.my_year == rhs.my_year){
-                if (this.my_month > rhs.my_month){
+            if (my_year == rhs.my_year){
+                if (my_month > rhs.my_month){
                     return false;}
-                if (this.my_month < rhs.my_month){
+                if (my_month < rhs.my_month){
                     return true;}
-                if (this.my_month == rhs.my_month){
-                    if (this.my_days > rhs.my_days){
+                if (my_month == rhs.my_month){
+                    if (my_day > rhs.my_day){
                         return false;}
-                    if (this.my_days < rhs.my_days){
+                    if (my_day < rhs.my_day){
                         return true;}
-                    if (this.my_days == rhs.my_days){
+                    if (my_day == rhs.my_day){
                         return false;}
                 }
             }
             return false;}
 
         // -----------
-        // operator +=
-        // -----------
+         // operator +=
+         // -----------
 
-        /**
-         * <your documentation>
-         * @param  days the number of days to add (may be negative!)
-         * @return the date resulting from adding days
-         * @throws invalid_argument if the resulting date precedes 1 Jan 1600
-         */
-        Date& operator += (const T& days) {
+         /**
+          * <your documentation>
+          * @param  days the number of days to add (may be negative!)
+          * @return the date resulting from adding days
+          * @throws invalid_argument if the resulting date precedes 1 Jan 1600
+          */
+         Date& operator += (const T& numberDays) {
 
-            if (typeid(days) == typeid(int)){
-                if days < 0{
-                    days = -days;
-                    this -= days;
-                }
-                else{
-                    int tempDays = this.days + days;
-                    Date tempDate = new Date(tempDays);
-                    this = tempDate;
-                }
-            }
+             if (typeid(numberDays) == typeid(int)){
+                 if days < 0{
+                     days = -days;
+                     this -= days;
+                 }
+                 else{
+                     int tempDays = days + numberDays;
+                     Date tempDate = new Date(tempDays);
+                     this = tempDate;
+                 }
+             }
 
-            if (typeid(days) == typeid(Date)){
-                if days.days < 0{
-                    days.days = -days.days;
-                    this -= days;
-                }
-                else{
-                    int tempDays = this.days + days.days
-                    Date tempDate = new Date(tempDays);
-                    this = tempDate;
-                }
-            }
+             if (typeid(numberDays) == typeid(Date)){
+                 if numberDays.days < 0{
+                     numberDays.days = -numberDays.days;
+                     this -= numberDays.days;
+                 }
+                 else{
+                     int tempDays = days + numberDays.days
+                     Date tempDate = new Date(tempDays);
+                     this = tempDate;
+                 }
+             }
 
-            if (!this.valid()){
-                throw std::invalid_argument();
-            }
+             if (!this.valid()){
+                 throw std::invalid_argument();
+             }
 
-            return *this;}
+             return *this;}
 
-        // -----------
-        // operator -=
-        // -----------
+         // -----------
+         // operator -=
+         // -----------
 
-        /**
-         * <your documentation>
-         * @param  days the number of days to subtract (may be negative!)
-         * @return the date resulting from subtracting days
-         * @throws invalid_argument if the resulting date precedes 1 Jan 1600
-         */
-        Date& operator -= (const T& days) {
+         /**
+          * <your documentation>
+          * @param  days the number of days to subtract (may be negative!)
+          * @return the date resulting from subtracting days
+          * @throws invalid_argument if the resulting date precedes 1 Jan 1600
+          */
+         Date& operator -= (const T& numberDays) {
 
-            if (typeid(days) == typeid(int)){
-                if days < 0{
-                    days = -days;
-                    this += days;
-                }
-                else{
-                    int tempDays = this.days - days;
-                    Date tempDate = new Date(tempDays);
-                    this = tempDate;
-                }
-            }
+             if (typeid(numberDays) == typeid(int)){
+                 if numberDays < 0{
+                     numberDays = -numberDays;
+                     this += numberDays;
+                 }
+                 else{
+                     int tempDays = days - numberDays;
+                     Date tempDate = new Date(tempDays);
+                     this = tempDate;
+                 }
+             }
 
-            if (typeid(days) == typeid(Date)){
-                if days.days < 0{
-                    days.days = -days.days;
-                    this += days;
-                }
-                else{
-                    int tempDays = this.days - days.days
-                    Date tempDate = new Date(tempDays);
-                    this = tempDate;
-                }
-            }
+             if (typeid(numberDays) == typeid(Date)){
+                 if numberDays.days < 0{
+                     numberDays.days = -numberDays.days;
+                     this += numberDays.days;
+                 }
+                 else{
+                     int tempDays = days - numberDays.days
+                     Date tempDate = new Date(tempDays);
+                     this = tempDate;
+                 }
+             }
 
-            if (!this.valid()){
-                throw std::invalid_argument();
-            }
+             if (!this.valid()){
+                 throw std::invalid_argument();
+             }
 
-            return *this;}
+             return *this;}
 
-        // ----------
-        // operator -
-        // ----------
+         // ----------
+         // operator -
+         // ----------
 
-        /**
-         * <your documentation>
-         * @return the number of days between the dates (lhs - rhs)
-         */
-        T operator - (const Date& rhs) const {
-            int numDays = this.days - rhs.days;
-            if numDays < 0{
-                numDays = -numDays;
-            }
-            return numDays;}
+         /**
+          * <your documentation>
+          * @return the number of days between the dates (lhs - rhs)
+          */
+         T operator - (const Date& rhs) const {
+             int numDays = days - rhs.days;
+             if numDays < 0{
+                 numDays = -numDays;
+             }
+             return numDays;}
+
 
         // ---------
         // leap_year
