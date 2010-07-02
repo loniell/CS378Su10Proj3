@@ -89,8 +89,13 @@ class Date {
          */
         friend std::ostream& operator << (std::ostream& lhs, const Date& rhs) {
             // <your code>
-        	char months[] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-            return lhs << rhs.my_day + " " + months[rhs.my_month -1] + " " + rhs.my_year + "  -  " + days + " days since 1 January 1600";}
+        	const char *months[12] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+        	if(rhs.valid())
+        		return lhs << rhs.my_day << " " << months[(rhs.my_month -1)] << " " << rhs.my_year << "  -  " << days << " days since 1 Jan 1600" << std::endl;
+        	else
+        		return lhs << "This is not a valid date" << std::endl;
+
+        }
 
     private:
         // ----
@@ -144,7 +149,7 @@ class Date {
             {
             	if(curday < 28)
             		++curday;
-            	else if(curday == 28 && curmonth = 2 && (curyear % 4 != 0 || (curyear % 4 == 0 && curyear % 400 != 0)))//non-leap year end of february
+            	else if(curday == 28 && curmonth == 2 && (curyear % 4 != 0 || (curyear % 4 == 0 && curyear % 400 != 0)))//non-leap year end of february
             	{
             		curday = 1;
             		++curmonth;
@@ -319,31 +324,29 @@ class Date {
          Date& operator += (const T& numberDays) {
 
              if (typeid(numberDays) == typeid(int)){
-                 if days < 0{
-                     days = -days;
-                     this -= days;
+                 if (numberDays < 0){
+                     *this -= -numberDays;
                  }
                  else{
                      int tempDays = days + numberDays;
-                     Date tempDate = new Date(tempDays);
-                     this = tempDate;
+                     Date<T> tempDate(tempDays);
+                     *this = tempDate;
                  }
              }
 
              if (typeid(numberDays) == typeid(Date)){
-                 if numberDays.days < 0{
-                     numberDays.days = -numberDays.days;
-                     this -= numberDays.days;
+                 if (numberDays.days < 0){
+                     *this -= -numberDays.days;
                  }
                  else{
-                     int tempDays = days + numberDays.days
-                     Date tempDate = new Date(tempDays);
-                     this = tempDate;
+                     int tempDays = days + numberDays.days;
+                     Date<T> tempDate(tempDays);
+                     *this = tempDate;
                  }
              }
 
-             if (!this.valid()){
-                 throw std::invalid_argument();
+             if (!valid()){
+                 throw std::invalid_argument("Date:: +=()");
              }
 
              return *this;}
@@ -361,31 +364,29 @@ class Date {
          Date& operator -= (const T& numberDays) {
 
              if (typeid(numberDays) == typeid(int)){
-                 if numberDays < 0{
-                     numberDays = -numberDays;
-                     this += numberDays;
+                 if (numberDays < 0){
+                     *this += -numberDays;
                  }
                  else{
                      int tempDays = days - numberDays;
-                     Date tempDate = new Date(tempDays);
-                     this = tempDate;
+                     Date<T> tempDate(tempDays);
+                     *this = tempDate;
                  }
              }
 
              if (typeid(numberDays) == typeid(Date)){
-                 if numberDays.days < 0{
-                     numberDays.days = -numberDays.days;
-                     this += numberDays.days;
+                 if (numberDays.days < 0){
+                     *this += -numberDays.days;
                  }
                  else{
-                     int tempDays = days - numberDays.days
-                     Date tempDate = new Date(tempDays);
-                     this = tempDate;
+                     int tempDays = days - numberDays.days;
+                     Date<T> tempDate(tempDays);
+                     *this = tempDate;
                  }
              }
 
-             if (!this.valid()){
-                 throw std::invalid_argument();
+             if (!valid()){
+                 throw std::invalid_argument("Date:: -=()");
              }
 
              return *this;}
@@ -400,7 +401,7 @@ class Date {
           */
          T operator - (const Date& rhs) const {
              int numDays = days - rhs.days;
-             if numDays < 0{
+             if (numDays < 0){
                  numDays = -numDays;
              }
              return numDays;}
