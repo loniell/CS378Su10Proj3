@@ -146,5 +146,3 @@ int main () {
 
     cout << "Done." << endl;
     return 0;}
-
-syntax highlighted by Code2HTML, v. 0.9.1 

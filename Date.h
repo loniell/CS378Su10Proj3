@@ -335,11 +335,11 @@ class Date {
              }
 
              if (typeid(numberDays) == typeid(Date)){
-                 if (numberDays.days < 0){
-                     *this -= -numberDays.days;
+                 if (Date<T>(numberDays).days < 0){
+                     *this -= -Date<T>(numberDays).days;
                  }
                  else{
-                     int tempDays = days + numberDays.days;
+                     int tempDays = days + Date<T>(numberDays).days;
                      Date<T> tempDate(tempDays);
                      *this = tempDate;
                  }
@@ -375,11 +375,11 @@ class Date {
              }
 
              if (typeid(numberDays) == typeid(Date)){
-                 if (numberDays.days < 0){
-                     *this += -numberDays.days;
+                 if (Date<T>(numberDays).days < 0){
+                     *this += -Date<T>(numberDays).days;
                  }
                  else{
-                     int tempDays = days - numberDays.days;
+                     int tempDays = days - Date<T>(numberDays).days;
                      Date<T> tempDate(tempDays);
                      *this = tempDate;
                  }
