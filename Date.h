@@ -116,7 +116,7 @@ class Date {
          * <your documentation>
          */
         bool valid () const {
-            if(my_month < 0 || my_month > 12 || my_day > 31 || my_day < 0 || my_year < 0)
+            if(my_month < 1 || my_month > 12 || my_day > 31 || my_day < 1 || my_year < 1)
             	return false;
             else if(my_day > 30 && (my_month == 4 || my_month == 6 || my_month == 9 || my_month == 11))
             	return false;
@@ -188,7 +188,7 @@ class Date {
 
 
             if (!valid())
-                throw std::invalid_argument("Date::Date()");
+                throw std::invalid_argument("Date()");
         }
 
         // -------
@@ -220,7 +220,9 @@ class Date {
             my_month = month;
             my_day = day;
             if (!valid())
-            	throw std::invalid_argument("Date::Date()");
+            {
+            	throw std::invalid_argument("Date()");
+            }
             int currentyear = 1600;
             int daysin_givenyear = 0;
             int month_in_givenyear = 1;
@@ -346,7 +348,7 @@ class Date {
              }
 
              if (!valid()){
-                 throw std::invalid_argument("Date:: +=()");
+                 throw std::invalid_argument("+=()");
              }
 
              return *this;}
@@ -386,7 +388,7 @@ class Date {
              }
 
              if (!valid()){
-                 throw std::invalid_argument("Date:: -=()");
+                 throw std::invalid_argument("-=()");
              }
 
              return *this;}
