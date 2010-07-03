@@ -91,7 +91,7 @@ class Date {
             // <your code>
         	const char *months[12] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
         	if(rhs.valid())
-        		return lhs << rhs.my_day << " " << months[(rhs.my_month -1)] << " " << rhs.my_year << "  -  " << rhs.days << " days since 1 Jan 1600" << std::endl;
+        		return lhs << rhs.my_day << " " << months[(rhs.my_month -1)] << " " << rhs.my_year;
         	else
         		return lhs << "This is not a valid date" << std::endl;
 
