@@ -149,7 +149,7 @@ class Date {
             {
             	if(curday < 28)
             		++curday;
-            	else if(curday == 28 && curmonth == 2 && (curyear % 4 != 0 || (curyear % 4 == 0 && curyear % 400 != 0)))//non-leap year end of february
+            	else if(curday == 28 && curmonth == 2 && (curyear % 4 != 0 || (curyear % 4 == 0 && curyear % 100 == 0 && curyear % 400 != 0)))//non-leap year end of february
             	{
             		curday = 1;
             		++curmonth;
@@ -181,7 +181,6 @@ class Date {
             	}
             	++ count;
             }
-
             my_year = curyear;
             my_day = curday;
             my_month = curmonth;
@@ -217,8 +216,8 @@ class Date {
         Date (const T& day, const T& month, const T& year) {
             my_year = (int) year;
             days = 0;
-            my_month = month;
-            my_day = day;
+            my_month = (int) month;
+            my_day = (int) day;
             if (!valid())
             {
             	throw std::invalid_argument("Date()");
@@ -248,7 +247,7 @@ class Date {
             {
             	if(currentyear % 4 != 0 || (currentyear % 4 == 0 && currentyear % 100 == 0 && currentyear %400 != 0))
             		days+= 365;
-            	else if(currentyear %4 == 0 && currentyear % 400 == 0)
+            	else
             		days += 366;
             	++currentyear;
             }
@@ -419,7 +418,7 @@ class Date {
         bool leap_year () const {
         	if(my_year % 4 != 0)
         		return false;
-        	else if(my_year %4 == 0 && my_year % 400 == 0)
+        	else if((my_year % 4 == 0 && my_year % 400 == 0) || (my_year % 4 == 0 % my_year % 100 != 0))
         		return true;
         	return false;
         }
