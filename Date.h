@@ -370,7 +370,7 @@ class Date {
                  }
                  else{
                      int tempDays = days - numberDays;
-                     Date<T> tempDate(tempDays);
+                     Date<T> tempDate(tempDays - 1);
                      *this = tempDate;
                  }
              }
@@ -381,7 +381,7 @@ class Date {
                  }
                  else{
                      int tempDays = days - Date<T>(numberDays).days;
-                     Date<T> tempDate(tempDays);
+                     Date<T> tempDate(tempDays - 1);
                      *this = tempDate;
                  }
              }
