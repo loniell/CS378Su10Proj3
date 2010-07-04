@@ -59,7 +59,9 @@ class Date {
         // ----------
 
         /**
-         * <your documentation>
+         * @param lhs - a Date
+         * @param rhs - either a Date or an int; the += method will identify which
+         * @return returns the result of the += method
          * @throws invalid_argument if the resulting date precedes 1 Jan 1600
          */
         friend Date operator + (Date lhs, const T& rhs) {
@@ -70,7 +72,9 @@ class Date {
         // ----------
 
         /**
-         * <your documentation>
+         * @param lhs - a Date
+         * @param rhs - either a Date or an int; the -= method will identify which
+         * @return returns the result of the -= method
          * @throws invalid_argument if the resulting date precedes 1 Jan 1600
          */
         friend Date operator - (Date lhs, const T& rhs) {
@@ -113,7 +117,10 @@ class Date {
         // -----
 
         /**
-         * <your documentation>
+         * @param - no params
+         * @return - returns true if the stored date is legal
+         * legal being defined as on or after 1 Jan 1600, with date/month/year positive
+         * and not equal to 0
          */
         bool valid () const {
             if(my_month < 1 || my_month > 12 || my_day > 31 || my_day < 1 || my_year < 1)
@@ -135,7 +142,7 @@ class Date {
         /**
          * @param totaldays >= 0
          * Date(0) -> 1 Jan 1600
-         * you can loop through an array of month days
+         * finds the correct day, month and year by iterating through the days
          */
         Date (const T& totaldays)
         {
@@ -264,7 +271,9 @@ class Date {
         // -----------
 
         /**
-         * <your documentation>
+         * @param rhs 	a Date
+         * @return 		true if the stored day, month and year from 'this' and rhs are equal
+         * 				false otherwise
          */
         bool operator == (const Date& rhs) const {
             // current day = rhs.my_day
@@ -285,42 +294,23 @@ class Date {
         // ----------
 
         /**
-         * <your documentation>
+         * @param rhs 		a Date
+         * @return			true if 'this' is a Date earlier than rhs
+         * 					false otherwise
          */
         bool operator < (const Date& rhs) const {
-            // current day = rhs.my_day
-            // current month = rhs.my_month
-            // current year = rhs.my_year
-
-            if (my_year < rhs.my_year){
-                return true;}
-            if (my_year > rhs.my_year){
-                return false;}
-            if (my_year == rhs.my_year){
-                if (my_month > rhs.my_month){
-                    return false;}
-                if (my_month < rhs.my_month){
-                    return true;}
-                if (my_month == rhs.my_month){
-                    if (my_day > rhs.my_day){
-                        return false;}
-                    if (my_day < rhs.my_day){
-                        return true;}
-                    if (my_day == rhs.my_day){
-                        return false;}
-                }
-            }
-            return false;}
+            return days < rhs.days;
+        }
 
         // -----------
          // operator +=
          // -----------
 
          /**
-          * <your documentation>
-          * @param  days the number of days to add (may be negative!)
+          * @param  numberDays the number of days to add (may be negative!)
           * @return the date resulting from adding days
           * @throws invalid_argument if the resulting date precedes 1 Jan 1600
+          * 	determines whether numberDays is an int or a Date before calculating
           */
          Date& operator += (const T& numberDays) {
 
@@ -357,10 +347,11 @@ class Date {
          // -----------
 
          /**
-          * <your documentation>
-          * @param  days the number of days to subtract (may be negative!)
+          * @param  numberDays the number of days to subtract (may be negative!)
           * @return the date resulting from subtracting days
           * @throws invalid_argument if the resulting date precedes 1 Jan 1600
+          * 	determines whether numberDays is an int or a Date before performing the
+          * 	calculation
           */
          Date& operator -= (const T& numberDays) {
 
@@ -397,7 +388,7 @@ class Date {
          // ----------
 
          /**
-          * <your documentation>
+          * @param rhs 	a Date
           * @return the number of days between the dates (lhs - rhs)
           */
          T operator - (const Date& rhs) const {
@@ -413,7 +404,10 @@ class Date {
         // ---------
 
         /**
-         * <your documentation>
+         * no parameters
+         * @return - determines whether the stored year of 'this' is a leap year
+         * 			defined as a year divisible by 4 and not divisible by 100, except
+         * 			for years divisible by 4 and 400
          */
         bool leap_year () const {
         	if(my_year % 4 != 0)
