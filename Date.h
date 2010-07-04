@@ -97,7 +97,7 @@ class Date {
         	if(rhs.valid())
         		return lhs << rhs.my_day << " " << months[(rhs.my_month -1)] << " " << rhs.my_year;
         	else
-        		return lhs << "This is not a valid date" << std::endl;
+        		return lhs << "This is not a valid date";
 
         }
 
@@ -320,7 +320,10 @@ class Date {
                  }
                  else{
                      int tempDays = days + numberDays;
-                     Date<T> tempDate(tempDays);
+                     if (tempDays < 0){
+                 			throw std::invalid_argument("+=()");
+             			}
+                     Date<T> tempDate(tempDays-1);
                      *this = tempDate;
                  }
              }
@@ -331,7 +334,10 @@ class Date {
                  }
                  else{
                      int tempDays = days + Date<T>(numberDays).days;
-                     Date<T> tempDate(tempDays);
+                     if (tempDays < 0){
+                 			throw std::invalid_argument("+=()");
+             			}
+                     Date<T> tempDate(tempDays-1);
                      *this = tempDate;
                  }
              }
@@ -361,6 +367,9 @@ class Date {
                  }
                  else{
                      int tempDays = days - numberDays;
+                     if (tempDays < 0){
+                 			throw std::invalid_argument("-=()");
+             			}
                      Date<T> tempDate(tempDays - 1);
                      *this = tempDate;
                  }
@@ -372,6 +381,9 @@ class Date {
                  }
                  else{
                      int tempDays = days - Date<T>(numberDays).days;
+                     if (!valid()){
+                 			throw std::invalid_argument("-=()");
+             			}
                      Date<T> tempDate(tempDays - 1);
                      *this = tempDate;
                  }

@@ -1,52 +1,30 @@
-==31618== Memcheck, a memory error detector.
-==31618== Copyright (C) 2002-2008, and GNU GPL'd, by Julian Seward et al.
-==31618== Using LibVEX rev 1878, a library for dynamic binary translation.
-==31618== Copyright (C) 2004-2008, and GNU GPL'd, by OpenWorks LLP.
-==31618== Using valgrind-3.4.0, a dynamic binary instrumentation framework.
-==31618== Copyright (C) 2000-2008, and GNU GPL'd, by Julian Seward et al.
-==31618== For more details, rerun with: -v
-==31618== 
+==25407== Memcheck, a memory error detector.
+==25407== Copyright (C) 2002-2008, and GNU GPL'd, by Julian Seward et al.
+==25407== Using LibVEX rev 1878, a library for dynamic binary translation.
+==25407== Copyright (C) 2004-2008, and GNU GPL'd, by OpenWorks LLP.
+==25407== Using valgrind-3.4.0, a dynamic binary instrumentation framework.
+==25407== Copyright (C) 2000-2008, and GNU GPL'd, by Julian Seward et al.
+==25407== For more details, rerun with: -v
+==25407== 
 TestDate.c++
-.F...F.F.F.
+.............................
 
 
-!!!FAILURES!!!
-Test Results:
-Run:  7   Failures: 4   Errors: 0
-
-
-1) test: TestDate::test_constructor (F) line: 41 TestDate.c++
-assertion failed
-- Expression: false
-
-
-2) test: TestDate::test_plus (F) line: 81 TestDate.c++
-assertion failed
-- Expression: x + 365 == y
-
-
-3) test: TestDate::test_minus (F) line: 93 TestDate.c++
-assertion failed
-- Expression: y - 366 == x
-
-
-4) test: TestDate::test_output (F) line: 106 TestDate.c++
-assertion failed
-- Expression: out.str() == "16 Jun 2008"
+OK (29 tests)
 
 
 Done.
-==31618== 
-==31618== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 21 from 1)
-==31618== malloc/free: in use at exit: 122,880 bytes in 6 blocks.
-==31618== malloc/free: 377 allocs, 371 frees, 166,777 bytes allocated.
-==31618== For counts of detected errors, rerun with: -v
-==31618== searching for pointers to 6 not-freed blocks.
-==31618== checked 125,400 bytes.
-==31618== 
-==31618== LEAK SUMMARY:
-==31618==    definitely lost: 0 bytes in 0 blocks.
-==31618==      possibly lost: 0 bytes in 0 blocks.
-==31618==    still reachable: 122,880 bytes in 6 blocks.
-==31618==         suppressed: 0 bytes in 0 blocks.
-==31618== Rerun with --leak-check=full to see details of leaked memory.
+==25407== 
+==25407== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 21 from 1)
+==25407== malloc/free: in use at exit: 122,880 bytes in 6 blocks.
+==25407== malloc/free: 815 allocs, 809 frees, 215,933 bytes allocated.
+==25407== For counts of detected errors, rerun with: -v
+==25407== searching for pointers to 6 not-freed blocks.
+==25407== checked 124,936 bytes.
+==25407== 
+==25407== LEAK SUMMARY:
+==25407==    definitely lost: 0 bytes in 0 blocks.
+==25407==      possibly lost: 0 bytes in 0 blocks.
+==25407==    still reachable: 122,880 bytes in 6 blocks.
+==25407==         suppressed: 0 bytes in 0 blocks.
+==25407== Rerun with --leak-check=full to see details of leaked memory.
